@@ -1,3 +1,7 @@
+let divs = document.querySelector('#results');
+let buttnos = document.querySelectorAll("button");
+let id;
+
 function getCOmputerChoice() {
   let odabir = ["rock", "paper", "scissors"];
   let random = Math.floor(Math.random() * odabir.length);
@@ -19,17 +23,31 @@ function playOne(playerSelection, computerChoice) {
   }
 }
 
-function game() {
-    let player = 0;
-    let computer = 0;
+let player = 0;
+let computer = 0;
 
-    for (let i = 0; i < 5; i++) {
+function game() {
+    
+    let playerSelection;
+
+    
     let computerChoice = getCOmputerChoice();
     console.log(computerChoice);
-    let playerSelection = prompt("Choose: rock, paper or scissors").toLowerCase();
+    
+    switch(id){
+      case 1:
+        playerSelection = "rock";
+      case 2:
+        playerSelection = "paper";
+      case 3:
+        playerSelection = "scissors";
+      default:
+        playerSelection = "rock";
+    }
 
     let result = playOne(playerSelection, computerChoice);
-    console.log(result);
+    //console.log(result);
+    divs.textContent = result;
 
     if(result == "You win!"){
         player += 1;
@@ -39,8 +57,30 @@ function game() {
         player += 1;
         computer += 1;
     }
-    console.log(`Your score is ${player} and computers score is ${computer}!`)
+    let par = document.createElement('p');
+    par.textContent = `Your score is ${player} and computers score is ${computer}!`;
+    divs.appendChild(par);
+    if (player == 5){
+      let par2 = document.createElement('p');
+      par2.textContent = 'You win';
+      divs.appendChild(par2);
+      player = 0;
+      computer = 0;
+    }else if (computer == 5){
+      let par2 = document.createElement('p');
+      par2.textContent = 'Computer wins';
+      divs.appendChild(par2);
+      player = 0;
+      computer = 0;
     }
+    
 }
 
-game();
+buttnos.forEach((button) =>{
+  button.addEventListener("click", () => {
+    game();
+    id = button.id;
+  });
+});
+
+
